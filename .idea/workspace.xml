@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="125fe4e2-283e-446f-83f6-11fd93ce0ee3" name="Changes" comment="Fix">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build.sh" beforeDir="false" afterPath="$PROJECT_DIR$/build.sh" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/ai/ai.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/ai/ai.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/ai/ai.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/ai/ai.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/ai/aiUtils.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/ai/aiUtils.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/ai/client/clientDataset.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/ai/client/clientDataset.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/ai/client/clientLearning.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/ai/client/clientLearning.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/ai/client/clientSettings.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/ai/client/clientSettings.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/ai/client/clientStats.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/ai/client/clientStats.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/ai/client/clientTelemetry.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/ai/client/clientTelemetry.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/ai/dataset/addDs.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/ai/dataset/addDs.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/ai/dataset/classes.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/ai/dataset/classes.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/ai/dataset/dsEditor.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/ai/dataset/dsEditor.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/ai/dataset/dsTab.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/ai/dataset/dsTab.js" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="JavaScript File" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;DannikInfo&quot;
+  }
+}</component>
+  <component name="GithubPullRequestsUISettings">
+    <option name="selectedUrlAndAccountId">
+      <UrlAndAccount>
+        <option name="accountId" value="ec339ab4-6fd9-433d-be4f-73413da48c9f" />
+        <option name="url" value="https://github.com/MetidaAI/Frontend.git" />
+      </UrlAndAccount>
+    </option>
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 3
+}</component>
+  <component name="ProjectId" id="2YQQv13rVzkMstaUUXDwdniha5M" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/Users/dannikinfo/Documents/GitHub/METIDAprj/Frontend/src/pages/ai/client&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;/Applications/WebStorm.app/Contents/plugins/javascript-impl/jsLanguageServicesImpl/external&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  }
+}</component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/pages/ai/client" />
+    </key>
+  </component>
+  <component name="RunManager">
+    <configuration name="start HTTPS=true" type="js.build_tools.npm" nameIsGenerated="true">
+      <package-json value="$PROJECT_DIR$/package.json" />
+      <command value="run" />
+      <scripts>
+        <script value="start" />
+      </scripts>
+      <arguments value="HTTPS=true" />
+      <node-interpreter value="project" />
+      <envs />
+      <method v="2" />
+    </configuration>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="125fe4e2-283e-446f-83f6-11fd93ce0ee3" name="Changes" comment="" />
+      <created>1700455553971</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1700455553971</updated>
+      <workItem from="1700455557335" duration="1362000" />
+      <workItem from="1700456955088" duration="6075000" />
+      <workItem from="1701676643438" duration="919000" />
+      <workItem from="1701678146201" duration="370000" />
+      <workItem from="1703143786358" duration="1933000" />
+      <workItem from="1705640427644" duration="10000" />
+      <workItem from="1710314981180" duration="56407000" />
+      <workItem from="1710833098803" duration="371000" />
+      <workItem from="1715403933033" duration="25042000" />
+      <workItem from="1715788968040" duration="6097000" />
+      <workItem from="1717129904814" duration="1286000" />
+      <workItem from="1717482547111" duration="603000" />
+      <workItem from="1718691745224" duration="3090000" />
+      <workItem from="1719498240416" duration="11593000" />
+      <workItem from="1719808203426" duration="4206000" />
+      <workItem from="1724128519495" duration="168000" />
+    </task>
+    <task id="LOCAL-00001" summary="Накопительный коммит с фиксами">
+      <created>1703143982619</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1703143982619</updated>
+    </task>
+    <task id="LOCAL-00002" summary="Fix Api url for dev/prod environment">
+      <option name="closed" value="true" />
+      <created>1710322565105</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1710322565105</updated>
+    </task>
+    <task id="LOCAL-00003" summary="Remove trash">
+      <option name="closed" value="true" />
+      <created>1710322602944</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1710322602944</updated>
+    </task>
+    <task id="LOCAL-00004" summary="Фикс багов, добавлена работа с клиентами p.1">
+      <option name="closed" value="true" />
+      <created>1710510123922</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1710510123922</updated>
+    </task>
+    <task id="LOCAL-00005" summary="Fix">
+      <option name="closed" value="true" />
+      <created>1710517635875</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1710517635875</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Накопительный коммит с фиксами" />
+    <MESSAGE value="Fix Api url for dev/prod environment" />
+    <MESSAGE value="Remove trash" />
+    <MESSAGE value="Фикс багов, добавлена работа с клиентами p.1" />
+    <MESSAGE value="Fix" />
+    <option name="LAST_COMMIT_MESSAGE" value="Fix" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/src/pages/ai/client/clientSettings.js</url>
+          <option name="timeStamp" value="3" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
+</project>

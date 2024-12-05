@@ -1,0 +1,66 @@
+﻿1 - Через управление сертификатами в разделе личные, делаем запрос по шаблону WEB 2022
+2 - В запросе указываем 
+Закладка субъект:	
+	Имя субьекта:
+	электронная почта: E = root@biryusa.corp
+	домен:             CN = www.biryusa.corp
+	организация:       O = unspecified
+	страна:            C = RU
+
+	Дополнительное имя:
+	Служба DNS - www.biryusa.corp
+	IP адрес v4 - 172.16.0.XXX
+Закладка ключ: 
+	ключ - экспортируемый!
+	размер 2048
+
+3 - Применяем, отправляем запрос
+4 - Экспортируем с ключем в формате pfx метод шифрования RSA256
+5 - Загружаем на сервер полученный файл
+6 - 3 командами генерируем необходимые для веб сервера файлы
+
+openssl pkcs12 -in bcorp.pfx -out bcorp-ca.crt -nodes -nokeys -cacerts
+openssl pkcs12 -in bcorp.pfx -clcerts -nokeys -out bcorp.crt
+openssl pkcs12 -in bcorp.pfx -nocerts -nodes -out bcorp.key
+
+пароль 12321
+
+Интергация сертификатов и настройка web сервера Apache
+; Обновлить системные пакеты
+dnf update
+; установить модуль поддержки SSL если его нет
+dnf install httpd mod_ssl
+; запустить и разрешить запуск APACHE
+systemctl enable --now httpd
+
+; прописать путь по сертификатов в \etc\httpd\conf.d\ssl.conf
+; Автоподстановка https
+; Создание каталога сервера для 80 и 443 порта
+\etc\httpd\conf.d\userdir.conf
+
+<VirtualHost *:80 *:443>
+    ServerName biryusa.corp
+    ServerAlias www.biryusa.corp
+    ServerAdmin root@biryusa.corp
+    DocumentRoot /var/www/html
+
+    <Directory /var/www/html>
+        Options -Indexes +FollowSymLinks
+        AllowOverride All
+    </Directory>
+	
+    ErrorLog /var/log/httpd/biryusa.corp.log
+    CustomLog /var/log/httpd/biryusa.corp-access.log combined
+</VirtualHost>
+
+;В корне сайта создадим файл .htaccess
+
+RewriteEngine on
+  RewriteCond %{HTTPS} off
+  RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [R=301.L]
+
+; проверить конфигурацию сервера httpd.conf
+httpd -t
+
+; Перезапускаем Apache
+service httpd restart  

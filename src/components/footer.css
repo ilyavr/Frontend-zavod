@@ -1,0 +1,70 @@
+/*
+* Footer styles
+*/
+footer{
+    margin-top: auto !important;
+    padding: 50px;
+    width: 100%;
+    background-color: var(--footer);
+}
+.footer-nav{
+    padding-left: 10px;
+    padding-right: 10px;
+}
+.footer-nav > a{
+    color: white;
+    transition: var(--anim-speed);
+    border-radius: 4px !important;
+    padding: 0.5rem 1rem !important;
+}
+
+.footer-nav > a:hover{
+    background-color: rgba(200, 200, 200, 0.05);
+    color: rgb(200, 200, 200);
+}
+.footer-copy{
+    position: relative;
+}
+.copyright{
+
+    color: rgba(200, 200, 200, 0.6);
+    text-align: left;
+}
+.copyright > a:hover{
+    color: #0d6efd!important;
+}
+.footer-block{
+    margin-bottom: 30px;
+}
+.weatherwidget-io{
+    border-radius: 4px;
+}
+.footer-block > .datepicker-here > .datepicker-inline > .datepicker{
+    background-color: rgba(200, 200, 200, 0.05) !important;
+    border: none !important;
+    transition: var(--anim-speed);
+}
+.footer-block > .datepicker-here > .datepicker-inline > .datepicker > .datepicker--nav{
+    border-bottom-color: rgba(200, 200, 200, 0.1) !important;
+    transition: var(--anim-speed);
+}
+.footer-block > .datepicker-here > .datepicker-inline > .datepicker > .datepicker--content > .datepicker--body > .datepicker--cells > .datepicker--cell,
+.footer-block > .datepicker-here > .datepicker-inline > .datepicker > .datepicker--nav > .datepicker--nav-title{
+    transition: var(--anim-speed);
+    color: white !important;
+}
+.footer-block > .datepicker-here > .datepicker-inline > .datepicker > .datepicker--content > .datepicker--body > .datepicker--cells > .-other-month-{
+    color: rgb(150, 150, 150) !important;
+}
+.footer-block > .datepicker-here > .datepicker-inline > .datepicker > .datepicker--content > .datepicker--body > .datepicker--cells > .-focus-,.datepicker--nav-action:hover,.datepicker--nav-title:hover{
+    background-color: rgba(200, 200, 200, 0.1) !important;
+    transition: var(--anim-speed);
+}
+.footer-block > .datepicker-here > .datepicker-inline > .datepicker > .datepicker--content > .datepicker--body > .datepicker--cells > .-current-{
+    transition: var(--anim-speed);
+    background-color: var(--purple) !important;
+}
+.footer-block > .datepicker-here > .datepicker-inline > .datepicker > .datepicker--content > .datepicker--body > .datepicker--cells > .-selected-{
+    transition: var(--anim-speed);
+    background-color: var(--purple-light) !important;
+}

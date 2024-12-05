@@ -1,0 +1,131 @@
+.aiBlock{
+    box-shadow: 0 6px 0 rgba(22, 65, 148, 0.4);
+    margin: 20px;
+    padding:20px;
+    /*border: solid 2px rgba(22, 65, 148, 0.4);*/
+    border-radius: 10px;
+    background-color: white;
+}
+
+.customOverlay > .tooltip-inner, .customOverlay{
+    opacity: 1!important;
+    padding: 0;
+    margin: 7px;
+}
+
+.statsImg{
+    width: 50vw;
+    border-radius: 7px!important;
+    opacity: 1!important;
+}
+
+.paramSelect{
+    background: none !important;
+    border: none !important;
+    padding: 2px !important;
+    outline: none !important;
+}
+
+.paramName{
+    font-weight: bold;
+    padding-right: 50px;
+}
+
+.paramValue{
+    font-weight: lighter;
+    padding-right: 50px;
+}
+
+.appBtn{
+    /*margin-left: 10px;*/
+    margin: 2px;
+    padding: 0;
+}
+
+.tdCenter{
+    text-align: center;
+}
+.customModalBody{
+    height: 700px;
+    width:700;
+}
+.icon-toggle {
+    color: #A52A2A;
+    cursor: pointer;
+    transition: color 0.3s ease; 
+}
+
+.icon-toggle:hover {
+    
+    color: #007bff; 
+}
+.hidden-class {
+    text-decoration: line-through;
+    color: gray;
+    opacity: 0.6;
+}
+.icon-trash {
+    font-size:1.2rem;
+    color: gray;
+    cursor: not-allowed;
+}
+
+.icon-trash:hover {
+    color: red;
+    cursor: pointer;
+}
+
+.icon-trash.disabled {
+    pointer-events: none;
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+.actions-column {
+    display: flex;
+    justify-content: space-between; 
+    align-items: center;
+}
+
+.actions-container {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.icon-trash.disabled {
+    pointer-events: none;
+    opacity: 0.5;
+}
+.actions-column {
+    display: flex;
+    justify-content: space-between; 
+    align-items: center;
+}
+
+.actions-container {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.icon-toggle, .icon-image, .icon-trash {
+    cursor: pointer;
+    font-size: 1.5rem; 
+    width: 30px; 
+    height: 30px; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.icon-trash.disabled {
+    pointer-events: none;
+    opacity: 0.5;
+}
+
+.icon-image{
+    color:#008000;
+}
+.icon-image:hover{
+    color: #007bff; 
+}

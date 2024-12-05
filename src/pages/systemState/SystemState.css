@@ -1,0 +1,33 @@
+.form-control, .form-select{
+    margin-bottom: 10px;
+    margin-right: 10px;
+}
+
+.online{
+    color: #90EE90;
+}
+
+.offline{
+    animation: blinker 1s linear infinite;
+}
+
+.legend{
+    margin:10px;
+}
+.legends{
+    text-align: center;
+    margin: 20px;
+}
+
+@keyframes blinker {
+    0% {
+        color: red;
+    }
+    100%{
+        color: white;
+    }
+}
+
+.wrapper{
+    min-height: 80vh;
+}

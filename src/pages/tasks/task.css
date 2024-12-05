@@ -1,0 +1,99 @@
+.tasks{
+    margin-bottom: 5px;
+}
+.tasks > .row{
+    padding-left: 10px;
+}
+.taskHeader{
+    margin-top: 30px;
+    transition: var(--anim-speed);
+    border-radius: 4px;
+    background-color: rgba(200, 200, 200, 0.2);
+    padding: 5px 5px 5px 10px;
+    box-shadow: 0 4px 0 rgba(22, 65, 148, 0.2);
+}
+
+.task{
+    margin: 5px;
+    padding: 0;
+    background: none;
+    border-radius: 4px;
+    border: none;
+    box-shadow: 0 6px 0 rgba(22, 65, 148, 0.4);
+    width: 125px;
+    height: 56px;
+    float: right !important;
+}
+.task:hover{
+    box-shadow: 0 4px 0 rgba(22, 65, 148, 0.4);
+    transform: translateY(2px);
+    cursor: pointer;
+}
+.taskPic{
+    border-radius: 4px;
+    width: 126px;
+}
+.tasks-container{
+    min-width: 100%;
+}
+
+.viewer > .modal-dialog > .modal-content > .modal-body{
+    margin: 0;
+    padding: 0;
+}
+
+.viewer > .modal-dialog{
+    margin: 0;
+}
+.taskBackdropPre{
+    position: relative;
+    padding: 0;
+    background: none;
+    border-radius: 4px;
+    border: none;
+    transition: var(--anim-speed);
+}
+
+.taskBackdropPre:hover{
+    transform: none;
+}
+
+.taskBackdropPreModal{
+    width: 252px!important;
+}
+.taskBackdropModal{
+    left: -5px!important;
+}
+.taskBackdrop{
+    position: absolute;
+    border-radius: 4px;
+    width: 126px;
+    height: 100%;
+    margin: 0;
+    top: 0;
+    left: 0;
+    transition: var(--anim-speed);
+    color: rgba(255,255,255,0.5);
+}
+.taskBackdrop > .btnTaskChanger {
+    display: none;
+    transition: var(--anim-speed);
+    color: white;
+}
+.taskBackdrop:hover{
+    background-color: rgba(0,0,0,0.5);
+    cursor: pointer;
+}
+.taskBackdrop:hover > .btnTaskChanger{
+    display: block;
+}
+.taskSelected{
+    box-shadow: 0 0 0 0.25rem rgba(22, 65, 148, 0.25);
+    outline: 0 none;
+}
+/*================== MODAL Styles ==================*/
+.taskA{
+    border-radius: 4px;
+    width: 252px;
+    height: 112px;
+}
