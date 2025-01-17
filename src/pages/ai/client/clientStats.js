@@ -32,6 +32,7 @@ import TelemetryControl from "./telemetryControl";
 import '../ai.css'
 
 const ClientStats = (props) => {
+    
     let d1 = new Date();
     let d2 = new Date();
     d2.setDate(d2.getDate() + 1);
@@ -49,7 +50,7 @@ const ClientStats = (props) => {
     const [dsExamples, setExamples] = useState([]);
     const [classes, setClasses] = useState([]);
     const [clients, setClients] = useState([]);
-
+    const [PointStatus, setPointStatus] = useState('')
     const {client} = useParams();
 
     const [clientId, setClientId] = useState(-1);
@@ -59,7 +60,8 @@ const ClientStats = (props) => {
     const [manualStats, setManualStats] = useState(false);
     const [showHB, setShowHB] = useState(false);
     const [showTelemetry, setShowTelemetry] = useState(false);
-
+    const [startDate,setStartDate] = useState(null);
+    const [stopDate,setStopDate] = useState(null);
     useEffect(() => {
         GetClients(setClients)
     }, []);
@@ -75,6 +77,24 @@ const ClientStats = (props) => {
 
     let lastTs = 0;
     let localStats = [];
+    const getCurrentDates = () => {
+        const startDate = dPickerStart.current?.selectedDates[0];
+        const stopDate = dPickerStop.current?.selectedDates[0];
+        return { startDate, stopDate };
+    };
+    const openTelemetry = () => {
+        const { startDate, stopDate } = getCurrentDates();
+        setModalContent((prev) => ({
+            ...prev,
+            startDate,
+            stopDate,
+            clientId,
+        }));
+        setShowTelemetry(true); 
+    };
+    useEffect(() => {
+        console.log(clientId);
+    },[clientId]);
 
     useEffect(() => {
         if (clientId === -1 || manualStats) return; 
@@ -110,7 +130,6 @@ const ClientStats = (props) => {
             }
         };
     }, [clientId, manualStats]);
-
     useEffect(() => {
         if(modelId === -1) return;
         const loadExamples = async () => {
@@ -248,7 +267,6 @@ const ClientStats = (props) => {
         );
     }
 
-
     function getModalContent(){
         if(modalContent.data !== undefined){
             return(
@@ -313,6 +331,7 @@ const ClientStats = (props) => {
                         setStats(response.data)
                         console.log(response.data)
                     })
+                    
             } catch (err) {
                 if (!axios.isCancel(err)) {
                     console.log(err.message);
@@ -340,7 +359,7 @@ const ClientStats = (props) => {
             <Row className={"d-flex justify-content-center"}>
                 <Col className={"aiBlock"} md={3}>
                     <h3 className={"text-center"}>{client}</h3>
-                    Состояние: работа<br/>
+                    Состояние: {PointStatus}<br/>
                     {/*Режим: автомат<br/>*/}
                     Ошибок сегодня: {errors.length}
                         <Button  onClick={() => {
@@ -367,7 +386,7 @@ const ClientStats = (props) => {
                 </Col>
                 <Col className={"aiBlock text-center"} md={3}>
                     <h4>Система клиента</h4>
-                    <Button variant="secondary" onClick={()=> setShowTelemetry(true)}>
+                    <Button variant="secondary" onClick={openTelemetry}>
                         Состояние
                     </Button><br/><br/>
                     <Button variant="secondary" onClick={()=> setShowHB(true)}>
@@ -397,7 +416,7 @@ const ClientStats = (props) => {
             </Modal>
 
             <Modal show={showTelemetry} onHide={() => setShowTelemetry(false)} size={"lg"}>
-                <TelemetryControl header={modalContent.header} client={modalContent.client} setShow={setShowTelemetry}/>
+                <TelemetryControl header={modalContent.header} client={modalContent.client} setShow={setShowTelemetry} startDate={modalContent.startDate} stopDate={modalContent.stopDate} clientId ={modalContent.clientId}/>
             </Modal>
         </>
     );

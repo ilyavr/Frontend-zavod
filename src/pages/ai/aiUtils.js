@@ -120,13 +120,15 @@ function LoadImg(img, setImg, client){
     }
 }
 
-function GetClassesCount(classes){
+function GetClassesCount(classes, modelId) {
     let count = 0;
-    if(classes !== undefined && classes !== null)
+    if (classes !== undefined && classes !== null) {
         for (let i = classes.length - 1; i >= 0; i--) {
-            if(!classes[i].deleted && classes[i].id !== 0)
+            if (!classes[i].deleted && classes[i].id !== 0 && classes[i].modelId === modelId) {
                 count++;
+            }
         }
+    }
     return count;
 }
 

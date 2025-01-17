@@ -41,6 +41,7 @@ const ClientDS = (props) => {
     useEffect(() => {
         if (clients.length > 0)
             setModelId(GetModelId(clients, client));
+        console.log('Значение modelID ',GetModelId(clients, client))
     }, [clients]);
 
     useEffect(() => {
@@ -181,7 +182,7 @@ const ClientDS = (props) => {
                             <FontAwesomeIcon icon={faMarker}/>
                         </Button><br/><br/>
 
-                    <b>Классов:</b> {GetClassesCount(classes)}
+                    <b>Классов:</b> {GetClassesCount(classes,modelId)}
                     <Button className={"btn-default btnIWarning btnSizeFix"}
                             onClick={() => setShowClss(true)}><FontAwesomeIcon icon={faPencil}/></Button>
                     <br/>

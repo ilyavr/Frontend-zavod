@@ -1,49 +1,59 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useParams } from "react-router-dom";
 import { ApiUrl } from "../../../App";
 import "../ClientAiData.css";
 
 const ClientAidata = () => {
   const [dsExamples, setExamples] = useState([]);
+  const [exampleImages, setExampleImages] = useState([]);
+  const [modelNames, setModelNames] = useState([]);
   const [selectedImage, setSelectedImage] = useState(null);
   const [selectedDetails, setSelectedDetails] = useState({ id: null, name: null });
-  const [showAI100, setShowAI100] = useState(false); // Состояние для кнопки AI100
-  const [showAI600, setShowAI600] = useState(false); // Состояние для кнопки AI600
+  const [loading, setLoading] = useState(false); // Состояние загрузки
   const { client } = useParams();
-  const [modelId, setModelId] = useState(-1);
-  const [modelNames, setModelNames] = useState([]);
-  const [exampleImages, setExampleImages] = useState([]);
+  const [activeModel, setActiveModel] = useState(null); // Активная модель
 
-  useEffect(() => {
-    fetch(`${ApiUrl}/ai/classes/getclassesetalon`, { method: "GET" })
-      .then((response) => response.json())
-      .then((data) => {
-        if (data && data.length > 0) {
-          const filteredData = data.filter((classValue) => !classValue.deleted);
-          const formattedNames = filteredData.map(
-            (classValue) => ({
-              id: classValue.id,
-              name: `${classValue.class} (id:${classValue.id})`,
-            })
-          );
-          setModelNames(formattedNames);
-        }
-      })
-      .catch((err) => console.error("Ошибка при получении классов:", err));
-  }, []);
+  const fetchDataForModel = async (modelId) => {
+    setLoading(true);
+    setExamples([]);
+    setExampleImages([]);
+    setModelNames([]);
+    setSelectedImage(null);
+    setSelectedDetails({ id: null, name: null });
 
-  useEffect(() => {
-    fetch(`${ApiUrl}/ai/dataset/getExamples?modelId=${modelId}`, { method: "GET" })
-      .then((response) => response.json())
-      .then((data) => {
-        if (data && data.length > 0) {
-          setExamples(data);
-          const images = data.map((example) => example.data);
-          setExampleImages(images);
-        }
-      })
-      .catch((err) => console.error("Ошибка при получении примеров:", err));
-  }, [modelId]);
+    try {
+      // Получаем эталоны для текущей модели
+      const classesResponse = await fetch(`${ApiUrl}/ai/classes/getclassesetalon?modelId=${modelId}`);
+      const classesData = await classesResponse.json();
+      if (classesData && classesData.length > 0) {
+        const formattedNames = classesData.map((classValue) => ({
+          id: classValue.id,
+          name: `${classValue.class} (id:${classValue.id})`,
+        }));
+        setModelNames(formattedNames);
+      }
+
+      // Получаем примеры для текущей модели
+      const examplesResponse = await fetch(`${ApiUrl}/ai/dataset/getExamples?modelId=${modelId}`);
+      const examplesData = await examplesResponse.json();
+      if (examplesData && examplesData.length > 0) {
+        setExamples(examplesData);
+        const images = examplesData.map((example) => example.data);
+        setExampleImages(images);
+      }
+    } catch (err) {
+      console.error("Ошибка при загрузке данных:", err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleModelChange = (modelId) => {
+    if (activeModel !== modelId) {
+      setActiveModel(modelId);
+      fetchDataForModel(modelId);
+    }
+  };
 
   const handleImageClick = (imageData, details) => {
     const imagePrefix = imageData.startsWith("data:image/") ? "" : "data:image/jpeg;base64,";
@@ -51,55 +61,46 @@ const ClientAidata = () => {
     setSelectedDetails(details);
   };
 
-  const handleShowAI100 = () => {
-    setShowAI100(true);
-    setShowAI600(false);
-  };
-
-  const handleShowAI600 = () => {
-    setShowAI100(false);
-    setShowAI600(true);
-    setSelectedImage(null);
-  };
-
   return (
     <div className="client-aidata">
       <div className="etalonButtons">
         <button
-          className={showAI100 ? "etalon-active-button" : ""}
-          onClick={handleShowAI100}
+          className={activeModel === 2 ? "etalon-active-button" : ""}
+          onClick={() => handleModelChange(2)}
         >
           AI100
         </button>
         <button
-          className={showAI600 ? "etalon-active-button" : ""}
-          onClick={handleShowAI600}
+          className={activeModel === 3 ? "etalon-active-button" : ""}
+          onClick={() => handleModelChange(3)}
         >
           AI600
         </button>
       </div>
 
-      {showAI100 && (
-        <div className="thumbnail-gallery">
-          {dsExamples.map((example, index) => (
-            <div key={index} className="thumbnail-container">
-              <div className="thumbnail-title">
-                {modelNames[index]?.name || "Без имени"}
+      {loading ? (
+        <div className="loading-spinner">Загрузка...</div>
+      ) : (
+        activeModel && (
+          <div className="thumbnail-gallery">
+            {dsExamples.map((example, index) => (
+              <div key={index} className="thumbnail-container">
+                <div className="thumbnail-title">
+                  {modelNames[index]?.name || "Без имени"}
+                </div>
+                <img
+                  className="thumbnail"
+                  src={`${exampleImages[index]}`}
+                  alt={`Thumbnail ${index}`}
+                  onClick={() =>
+                    handleImageClick(exampleImages[index], modelNames[index] || { id: null, name: "Без имени" })
+                  }
+                />
               </div>
-              <img
-                className="thumbnail"
-                src={`${exampleImages[index]}`}
-                alt={`Thumbnail ${index}`}
-                onClick={() =>
-                  handleImageClick(exampleImages[index], modelNames[index] || { id: null, name: "Без имени" })
-                }
-              />
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        )
       )}
-
-      {showAI600 && <div className="no-data">Нет данных для AI600</div>}
 
       {selectedImage && (
         <div className="selected-image">

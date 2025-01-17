@@ -3,18 +3,18 @@ import Modal from "react-bootstrap/Modal";
 import { Col, Row } from "react-bootstrap";
 import axios from "axios";
 import { ApiUrl } from "../../../App";
-import { Line } from 'react-chartjs-2';
-import { Chart as ChartJS } from 'chart.js/auto';
+import { Line } from "react-chartjs-2";
+import { Chart as ChartJS } from "chart.js/auto";
 
-const TelemetryControlContent = () => {
+const TelemetryControlContent = ({ startDate, stopDate, clientId }) => {
     const [telemetryData, setTelemetryData] = useState(null);
     const [parsedData, setParsedData] = useState(null);
     const [cpuTemperatureData, setCpuTemperatureData] = useState([]);
-    const [RAMData,setRAMData] = useState([]);
+    const [RAMData, setRAMData] = useState([]);
     const [timestamps, setTimestamps] = useState([]);
 
     const formatTimestamp = (timestamp) => {
-        const date = new Date(timestamp * 1000); 
+        const date = new Date(timestamp * 1000);
         return date.toLocaleString("ru-RU", {
             year: "2-digit",
             month: "2-digit",
@@ -27,26 +27,34 @@ const TelemetryControlContent = () => {
 
     const fetchCpu = () => {
         axios
-            .get(`${ApiUrl}/ai/telemetrygraph/telemetrygraph`)
+            .get(`${ApiUrl}/ai/telemetrygraph/telemetrygraph/${clientId}`, {
+                params: { startDate, stopDate}, 
+            })
             .then((response) => {
                 console.log("Ответ от сервера CPU:", response.data);
-                const cpuData = response.data.map(item => {
-                    try {
-                        return {
-                            timestamp: item.timestamp, 
-                            temperature: item.average_temperature,
-                            ram: item.average_ram
-                        };
-                    } catch (error) {
-                        console.error("Ошибка при разборе данных CPU:", error);
-                        return null;
-                    }
-                }).filter(item => item !== null);
+                const cpuData = response.data
+                    .map((item) => {
+                        try {
+                            return {
+                                timestamp: item.timestamp,
+                                temperature: item.average_temperature,
+                                ram: item.average_ram,
+                            };
+                        } catch (error) {
+                            console.error("Ошибка при разборе данных CPU:", error);
+                            return null;
+                        }
+                    })
+                    .filter((item) => item !== null);
     
-                const temperatureData = cpuData.map(data => data.temperature); 
-                const timestampsData = cpuData.map(data => data.timestamp);
-                const RamData = cpuData.map(data => data.ram);
-                setCpuTemperatureData(temperatureData);  
+                // Перевернем массив cpuData
+                const reversedCpuData = cpuData.reverse();
+    
+                const temperatureData = reversedCpuData.map((data) => data.temperature);
+                const timestampsData = reversedCpuData.map((data) => data.timestamp);
+                const RamData = reversedCpuData.map((data) => data.ram);
+    
+                setCpuTemperatureData(temperatureData);
                 setRAMData(RamData);
                 setTimestamps(timestampsData);
             })
@@ -54,51 +62,57 @@ const TelemetryControlContent = () => {
                 console.error("Ошибка при получении данных графика CPU:", error);
             });
     };
-
-    const fetchTelemetryData = () => {
-        axios
-            .get(`${ApiUrl}/ai/telemetry/latest`)
-            .then((response) => {
-                const rawTelemetry = response.data;
-                setTelemetryData(rawTelemetry);
-                const parsed = JSON.parse(rawTelemetry.data);
-                setParsedData(parsed);
-            })
-            .catch((error) => {
-                console.error("Ошибка загрузки телеметрии:", error);
-            });
-    };
+    
+        const fetchTelemetryData = () => {
+            axios.get(`${ApiUrl}/ai/telemetry/latest/${clientId}`)
+                .then((response) => {
+                    const rawTelemetry = response.data;
+                    setTelemetryData(rawTelemetry);
+                    const parsed = JSON.parse(rawTelemetry.data);
+                    setParsedData(parsed);
+                })
+                .catch((error) => {
+                    console.error("Ошибка загрузки телеметрии:", error);
+                });
+        };
 
     useEffect(() => {
         fetchTelemetryData();
-        fetchCpu();  
-    }, []);
+        fetchCpu();
+    }, [startDate, stopDate]);
+
+    useEffect(() => {
+        console.log(clientId);
+    },[clientId]);
 
     const data = {
-        labels: timestamps.map((timestamp) => formatTimestamp(timestamp)).reverse(), 
+        labels: timestamps.map((timestamp) => formatTimestamp(timestamp)),
         datasets: [
             {
                 label: "Температура CPU (°C)",
-                data: cpuTemperatureData,  
+                data: cpuTemperatureData,
                 borderColor: "rgb(75, 192, 192)",
                 backgroundColor: "rgba(75, 192, 192, 0.2)",
                 fill: true,
             },
         ],
     };
+
     const isDataAvailable = cpuTemperatureData.length > 0 && timestamps.length > 0;
+
     const memorydata = {
-        labels: timestamps.map((timestamp) => formatTimestamp(timestamp)).reverse(), 
+        labels: timestamps.map((timestamp) => formatTimestamp(timestamp)),
         datasets: [
             {
                 label: "Данные RAM",
-                data: RAMData, 
+                data: RAMData,
                 borderColor: "rgb(255, 99, 132)",
                 backgroundColor: "rgba(255, 99, 132, 0.2)",
                 fill: true,
             },
         ],
     };
+
     const isRamDataAvailable = RAMData.length > 0 && timestamps.length > 0;
 return (
         <>
@@ -117,7 +131,6 @@ return (
                                 </Col>
                             </Row>
                             <br />
-                            <br />
                             <Col>
                                 <b>RAM (Доступно/Всего):</b>{" "}
                                 {parsedData.mem?.ram?.physicAvailable} / {parsedData.mem?.ram?.physicTotal}
@@ -128,18 +141,16 @@ return (
                             </Col>
                             <Col>
                                 <b>Загрузка CPU:</b>
-                                {parsedData.cpu?.load?.map(value => Number(value).toFixed(2)).join(", ")}
+                                {parsedData.cpu?.load?.map((value) => Number(value).toFixed(2)).join(", ")}
                                 <br />
                                 <b>Температура CPU (°C):</b> {parsedData.thermal?.CPU}
                                 <br />
                             </Col>
                         </Row>
-
                         <Row>
                             <h5 align="center">График температуры CPU</h5>
                             {isDataAvailable ? (
                                 <Line data={data} />
-                                
                             ) : (
                                 <p>Загрузка данных...🏭</p>
                             )}
@@ -148,7 +159,6 @@ return (
                             <h5 align="center">График RAM</h5>
                             {isRamDataAvailable ? (
                                 <Line data={memorydata} />
-                                
                             ) : (
                                 <p>Загрузка данных...🏭</p>
                             )}

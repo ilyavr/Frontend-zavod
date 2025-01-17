@@ -129,3 +129,40 @@
 .icon-image:hover{
     color: #007bff; 
 }
+
+.garland {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+.light-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0 2.2%; 
+}
+
+.stick {
+    width: 4px;
+    height: 10px; 
+    background-color: brown;
+}
+
+.light {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    animation: blink 1s infinite alternate;
+}
+
+.light-0 { background-color: red; }
+.light-1 { background-color: green; }
+.light-2 { background-color: blue; }
+.light-3 { background-color: yellow; }
+.light-4 { background-color: purple; }
+
+@keyframes blink {
+    0% { opacity: 1; }
+    100% { opacity: 0.5; }
+}

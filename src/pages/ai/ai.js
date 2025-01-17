@@ -37,9 +37,17 @@ const AI = (props) => {
         <>
             <div className={"secondaryBg"}>
                 <div className={"container secondaryNoSearch"}>
-                    <h2 className={"text-center"}>METIDA AI
-                    </h2>
+                    <h2 className={"text-center"}>METIDA AI</h2>
+                    {/* <div className="garland">
+                    {Array.from({ length: 20 }).map((_, index) => (
+                        <div className="light-container" key={index}>
+                            <div className="stick"></div>
+                            <div className={`light light-${index % 5}`}></div>
+                        </div>
+                    ))}
+                </div> */}
                 </div>
+
             </div>
 
                 <Container style={{minWidth:"80vw"}}>

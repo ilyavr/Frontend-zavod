@@ -14,12 +14,12 @@ const ClassesContent = (props) => {
     const [showImageModal, setShowImageModal] = useState(false);
     const [classToDelete, setClassToDelete] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
-    const [modelId, setModelId] = useState(null); // ID модели, на основе которого будет запрос
-    const [imageSrc, setImageSrc] = useState(null); // Храним путь к изображению
+    const [modelId, setModelId] = useState(null);
+    const [imageSrc, setImageSrc] = useState(null);
     const [dsExamples, setExamples] = useState([]);
     const [newClass, setNewClass] = useState({
         class: "",
-        modelId: 2,
+        modelId: props.modelId,
         deleted: false,
     });
     const classInputRef = useRef(null);
@@ -29,10 +29,17 @@ const ClassesContent = (props) => {
         }
     }, [showAddClassModal]);
     useEffect(() => {
-        axios.get(`${ApiUrl}/ai/classes/getClasses`)
-            .then(response => setClasses(response.data))
-            .catch(error => console.error("Error fetching classes:", error));
-    }, [classes]);
+        if (props.modelId !== null) {
+            axios.get(`${ApiUrl}/ai/classes/getClasses?modelId=${modelId}`)
+                .then(response => setClasses(response.data))
+                .catch(error => console.error("Ошибка при загрузке классов:", error));
+        }
+    }, [props.modelId]); 
+
+
+    useEffect(() => {
+        console.log('Classes updated:', props.classes); // Лог для отладки
+    }, [props.classes]);
 
     useEffect(() => {
         const handleKeyDown = (e) => {
@@ -60,7 +67,7 @@ const ClassesContent = (props) => {
             reader.onload = () => {
                 const base64Data = reader.result.split(",")[1];
                 const newExample = {
-                    classId: modelId, // Use the current model ID
+                    classId: modelId, 
                     data: `data:image/jpeg;base64,${base64Data}`,
                 };
     
@@ -74,11 +81,7 @@ const ClassesContent = (props) => {
                     .then((response) => {
                         if (response.ok) {
                             alert("Эталон добавлен!");
-    
-                            // Automatically reload the class image after upload
                             loadClassImage(modelId);
-    
-                            // Close the modal after adding the image
                             setShowImageModal(false);
                         } else {
                             alert("Ошибка при добавлении эталона.");
@@ -93,9 +96,9 @@ const ClassesContent = (props) => {
     const loadClassImage = (classId) => {
         console.log("Загружаем изображение для класса с ID:", classId);
     
-        setIsLoading(true);  // Устанавливаем флаг загрузки
+        setIsLoading(true);  
     
-        setModelId(classId);  // Устанавливаем ID модели для запроса
+        setModelId(classId); 
     
         const requestUrl = `${ApiUrl}/ai/dataset/getExamples?modelId=${classId}`;
         console.log("Запрос на получение изображения:", requestUrl);
@@ -103,7 +106,7 @@ const ClassesContent = (props) => {
         fetch(requestUrl, { method: "GET" })
             .then((response) => response.json())
             .then((data) => {
-                console.log("Ответ от сервера:", data); // Логируем весь ответ от сервера
+                console.log("Ответ от сервера:", data); 
     
                 const example = data.find(item => item.classId === classId);
                 console.log("Полученный пример для класса с ID:", classId, example);
@@ -121,37 +124,43 @@ const ClassesContent = (props) => {
                 setImageSrc(null);
             })
             .finally(() => {
-                setIsLoading(false);  // Убираем флаг загрузки
+                setIsLoading(false); 
             });
     
-        setShowImageModal(true); // Показываем модальное окно
+        setShowImageModal(true); 
     };
-
+    const loadClasses = () => {
+        axios.get(`${ApiUrl}/ai/classes/getClasses?modelId=${props.modelId}`)
+            .then((response) => {
+                props.setClasses(response.data); 
+            })
+            .catch((error) => console.error("Ошибка при загрузке классов:", error))
+    };
     const handleAddClass = () => {
         axios.post(`${ApiUrl}/ai/classes/createClass`, newClass)
             .then(response => {
-                setClasses(prevClasses => [...prevClasses, response.data]);
+                props.setClasses(prevClasses => [...prevClasses, response.data]);
                 setShowAddClassModal(false);
-                setNewClass({ class: "", modelId: 2, deleted: false });
+                setNewClass({ class: "", modelId: props.modelId, deleted: false });
+                loadClasses()
             })
             .catch(error => console.error("Error adding class:", error));
     };
 
     const handleToggleClassStatus = (classId, deleted) => {
-        axios.put(`${ApiUrl}/ai/classes/toggleStatus`, { id: classId, deleted })
+        axios.put(`${ApiUrl}/ai/classes/toggleStatus`, { id: classId, deleted: !deleted })
             .then(response => {
-                setClasses(classes.map(cls =>
+                props.setClasses(props.classes.map(cls =>
                     cls.id === classId ? { ...cls, deleted: !deleted } : cls
                 ));
             })
-            .catch(error => console.error("Error toggling class status:", error));
+            .catch(error => console.error("Ошибка при обновлении статуса класса:", error));
     };
 
     const handleDeleteClass = () => {
-        console.log("Deleting class with ID:", classToDelete);
+        props.setClasses(props.classes.filter(cls => cls.id !== classToDelete));
         axios.delete(`${ApiUrl}/ai/classes/delete/${classToDelete}`)
             .then(response => {
-                setClasses(classes.filter(cls => cls.id !== classToDelete));
                 setShowDeleteModal(false);
                 setClassToDelete(null);
             })
@@ -249,26 +258,26 @@ const ClassesContent = (props) => {
                         </tr>
                     </thead>
                     <tbody>
-                        {classes.length > 0 ? (
-                            classes.map((cls) => (
+                        {props.classes.length > 0 ? (
+                            props.classes.map((cls) => (
                                 <tr key={cls.id}>
                                     <td>{cls.id}</td>
                                     <td className={cls.deleted ? "hidden-class" : ""}>{cls.class}</td>
                                     <td className="actions-column">
                                         <div className="actions-container">
-                                            <OverlayTrigger
-                                                placement="top"
-                                                overlay={<Tooltip>{!cls.deleted ? "Скрыть" : "Вернуть"}</Tooltip>}
-                                            >
-                                                <FontAwesomeIcon
-                                                    icon={!cls.deleted ? faXmark : faRotateBack}
-                                                    className="icon-toggle"
+                                        <OverlayTrigger
+                                            placement="top"
+                                            overlay={<Tooltip>{!cls.deleted ? "Скрыть" : "Вернуть"}</Tooltip>}
+                                        >
+                                            <FontAwesomeIcon
+                                                icon={!cls.deleted ? faXmark : faRotateBack}
+                                                className="icon-toggle"
                                                 onClick={() => handleToggleClassStatus(cls.id, cls.deleted)}
-                                                />
-                                            </OverlayTrigger>
+                                            />
+                                        </OverlayTrigger>
                                             <OverlayTrigger
                                             placement="top"
-                                            overlay={<Tooltip>Изменить эталон</Tooltip>}
+                                            overlay={<Tooltip>Показать</Tooltip>}
                                         >
                                             <FontAwesomeIcon
                                                 icon={faImage}
